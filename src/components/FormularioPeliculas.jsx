@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Error from "./Error";
 import Exito from "./Exito";
+import Peliculas from "./Peliculas";
 
 const FormularioPeliculas = () => {
   const [nombre, setNombre] = useState("");
@@ -11,11 +12,24 @@ const FormularioPeliculas = () => {
   const [error, setError] = useState(false);
   const [exito, setExito] = useState(false);
 
-  const [peliculas, setPeliculas] = useState([]);
+  const peliculasLocalStorage =
+    JSON.parse(localStorage.getItem("peliculasRolling")) || [];
+  const [peliculas, setPeliculas] = useState(peliculasLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem('peliculasRolling', JSON.stringify(peliculas))
+  }, [peliculas])
 
   const crearPelicula = (pelicula) => {
-    setPeliculas([...peliculas, pelicula])
-  }
+    setPeliculas([...peliculas, pelicula]);
+  };
+
+  const eliminarPelicula = (id) => {
+    const actualizarPelicula = peliculas.filter(
+      (pelicula) => pelicula.id !== id
+    );
+    setPeliculas(actualizarPelicula);
+  };
 
   const pelicula = {
     nombre: nombre,
@@ -38,7 +52,7 @@ const FormularioPeliculas = () => {
     }, 3000);
 
     pelicula.id = crypto.randomUUID();
-    crearPelicula(pelicula)
+    crearPelicula(pelicula);
 
     setNombre("");
     setGenero("");
@@ -96,7 +110,7 @@ const FormularioPeliculas = () => {
         </Form>
       </section>
 
-      <Peliculas />
+      <Peliculas peliculas={peliculas} eliminarPelicula={eliminarPelicula} />
     </>
   );
 };
