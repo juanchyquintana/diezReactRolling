@@ -8,11 +8,11 @@ function App() {
         <h1 className="text-center text-white text-uppercase fw-bold fst-italic">
           Movies Movies
         </h1>
-
-        <Container>
-          <FormularioPeliculas />
-        </Container>
       </div>
+
+      <Container>
+        <FormularioPeliculas />
+      </Container>
     </>
   );
 }
