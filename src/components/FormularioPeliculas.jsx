@@ -11,6 +11,18 @@ const FormularioPeliculas = () => {
   const [error, setError] = useState(false);
   const [exito, setExito] = useState(false);
 
+  const [peliculas, setPeliculas] = useState([]);
+
+  const crearPelicula = (pelicula) => {
+    setPeliculas([...peliculas, pelicula])
+  }
+
+  const pelicula = {
+    nombre: nombre,
+    genero: genero,
+    descripcion: descripcion,
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,6 +36,9 @@ const FormularioPeliculas = () => {
     setTimeout(() => {
       setExito(false);
     }, 3000);
+
+    pelicula.id = crypto.randomUUID();
+    crearPelicula(pelicula)
 
     setNombre("");
     setGenero("");
@@ -80,6 +95,8 @@ const FormularioPeliculas = () => {
           </Button>
         </Form>
       </section>
+
+      <Peliculas />
     </>
   );
 };
